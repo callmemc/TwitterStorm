@@ -41,15 +41,11 @@ public class ClusterConnection {
 
     }
 
-    public Cluster getCluster() {
-        return this.cluster;
-    }
-
-    public static class Template {
+    public class Template {
 
         ThriftColumnFamilyTemplate<String, String> template;
 
-        public Template(Cluster cluster, String keySpaceName, String cf) {
+        public Template(String keySpaceName, String cf) {
             Keyspace keySpace = HFactory.createKeyspace(keySpaceName, cluster); //gets keyspace
             this.template = new ThriftColumnFamilyTemplate<String, String>(keySpace, cf,
                     StringSerializer.get(), StringSerializer.get());

@@ -29,7 +29,7 @@ public class WordCounter extends BaseRichBolt {
         String word = tuple.getStringByField("word");
         ClusterConnection cluster = new ClusterConnection("TwitterCluster");
 
-        ClusterConnection.Template template = new ClusterConnection.Template(cluster.getCluster(), "wordsKeyspace", "words");
+        ClusterConnection.Template template = cluster.new Template("wordsKeyspace", "words");
 
         //read
         ColumnFamilyResult<String, String> res = template.getResult(word);
@@ -44,9 +44,6 @@ public class WordCounter extends BaseRichBolt {
         }
 
         ColumnFamilyResult<String, String> oldRes = template.getResult(word);
-        count = oldRes.getInteger("count");
-
-//        System.out.println("***Before Count for " + word + ": " + count);
 
         try {
             template.getTemplate().update(updater);
